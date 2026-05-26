@@ -1,310 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HTML To-Do List - Project Report</title>
-  <style>
-    @page {
-      size: A4;
-      margin: 2.5cm 2cm 2.5cm 2cm;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Times New Roman', Times, serif;
-      font-size: 12pt;
-      color: #000;
-      background: #fff;
-      line-height: 1.8;
-    }
-    .page {
-      width: 210mm;
-      min-height: 297mm;
-      margin: 0 auto;
-      padding: 2.5cm 2cm;
-      background: #fff;
-    }
-    @media screen {
-      body { background: #e0e0e0; }
-      .page {
-        box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        margin: 20px auto;
-      }
-    }
-    @media print {
-      body { background: #fff; }
-      .page { margin: 0; padding: 0; box-shadow: none; }
-      .no-print { display: none; }
-    }
-  </style>
+<meta charset="UTF-8"/>
+<title>HTML To-Do List – Project Report</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Times New Roman',Times,serif;font-size:12pt;color:#000;background:#fff;line-height:1.9;}
+@page{size:A4;margin:2.5cm 2cm;}
+@media print{.noprint{display:none!important;}.page{page-break-after:always;padding:0;box-shadow:none!important;}}
+@media screen{body{background:#ccc;}.page{box-shadow:0 0 18px rgba(0,0,0,.25);margin:24px auto;}}
+.page{width:210mm;min-height:297mm;background:#fff;padding:2.2cm 2cm;margin:0 auto;}
+h1.title{font-size:22pt;font-weight:bold;text-transform:uppercase;letter-spacing:3px;border-bottom:2.5px solid #000;padding-bottom:12px;margin-bottom:10px;}
+h2.sec{font-size:16pt;font-weight:bold;text-transform:uppercase;letter-spacing:1.5px;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:24px;text-align:center;}
+h3.sub{font-size:14pt;font-weight:bold;margin:18px 0 10px;}
+p{text-align:justify;margin-bottom:14px;}
+ol,ul{margin-left:26px;margin-bottom:14px;}
+li{margin-bottom:8px;line-height:1.9;}
+table{width:100%;border-collapse:collapse;margin-bottom:14px;}
+th,td{border:1px solid #aaa;padding:8px 11px;font-size:11.5pt;}
+th{background:#f0f0f0;text-align:left;}
+pre{background:#f5f5f5;border:1px solid #ccc;border-radius:5px;padding:12px;font-family:'Courier New',monospace;font-size:9pt;white-space:pre-wrap;line-height:1.55;margin-bottom:14px;}
+code{background:#f5f5f5;padding:1px 5px;border-radius:3px;font-size:10.5pt;}
+.cover{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:297mm;}
+.cover-box{border:3px double #000;padding:56px 44px;width:100%;}
+.noprint{text-align:center;padding:14px;background:#4f46e5;color:#fff;font-family:sans-serif;font-size:14px;position:sticky;top:0;z-index:99;}
+.noprint button{padding:7px 20px;background:#fff;color:#4f46e5;border:none;border-radius:6px;font-weight:bold;cursor:pointer;font-size:14px;}
+.fig{border:2px solid #4f46e5;border-radius:10px;overflow:hidden;margin:14px 0;box-shadow:0 3px 10px rgba(0,0,0,.12);}
+.fig-hdr{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:14px;text-align:center;font-size:13pt;font-weight:bold;}
+.fig-stats{display:flex;justify-content:space-around;background:#f8f9ff;padding:10px;border-bottom:1px solid #e0e0ff;}
+.stat{text-align:center;}
+.stat-n{font-size:17pt;font-weight:bold;color:#4f46e5;}
+.stat-l{font-size:8pt;color:#888;text-transform:uppercase;}
+.fig-cap{font-size:10.5pt;font-style:italic;text-align:center;color:#555;margin-top:6px;}
+.task-row{display:flex;align-items:center;gap:10px;border:1px solid #e0e4ff;border-radius:9px;padding:9px 12px;margin-bottom:7px;background:#f8f9ff;}
+.badge{font-size:8pt;padding:2px 8px;border-radius:8px;font-weight:bold;}
+.hi{background:#ffe0e0;color:#c62828;}.med{background:#fff3cd;color:#e65100;}.lo{background:#e8f5e9;color:#2e7d32;}
+.filter-row{display:flex;gap:7px;padding:11px 13px;background:#f8f9ff;flex-wrap:wrap;}
+.chip{padding:5px 14px;border-radius:20px;font-size:10pt;border:2px solid #e0e0ff;background:#fff;color:#555;}
+.chip.on{background:#4f46e5;color:#fff;border-color:#4f46e5;}
+.flow{text-align:center;font-size:11pt;margin:10px auto;width:78%;}
+.flow div{display:inline-block;padding:9px 18px;margin-bottom:4px;}
+.fstart{border:2px solid #333;border-radius:40px;background:#e8f0ff;}
+.fstep{border:2px solid #333;background:#fff8e1;}
+.fdec{border:2px solid #333;border-radius:7px;background:#e8ffe8;}
+.fend{border:2px solid #333;border-radius:40px;background:#ffe8e8;}
+.arr{font-size:17pt;display:block;line-height:1.1;}
+</style>
 </head>
 <body>
 
 
-<!-- Print Button -->
-<div class="no-print" style="text-align:center;padding:15px;background:#667eea;color:white;font-family:sans-serif;font-size:14px;">
-  📄 This report is formatted for PDF. Click
-  <button onclick="window.print()" style="padding:6px 18px;background:white;color:#667eea;border:none;border-radius:6px;font-weight:bold;cursor:pointer;font-size:14px;">Print / Save as PDF</button>
-  to export it.
+<!-- PRINT BAR -->
+<div class="noprint">
+  📄 Open this page in Chrome &rarr; press <strong>Ctrl+P</strong> &rarr; set <em>Destination: Save as PDF</em> &rarr; Save
+  &nbsp;&nbsp;<button onclick="window.print()">🖨️ Print / Save as PDF</button>
 </div>
 
-<!-- PAGE 1: TITLE PAGE -->
-<div class="page" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:297mm;">
-  <div style="border:3px double #000;padding:60px 50px;width:100%;">
-    <p style="font-size:13pt;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">A Project Report On</p>
-    <h1 style="font-size:22pt;font-weight:bold;text-transform:uppercase;letter-spacing:3px;margin-bottom:8px;border-bottom:2px solid #000;padding-bottom:12px;">HTML To-Do List</h1>
-    <p style="font-size:13pt;margin-top:12px;font-style:italic;">Using HTML, CSS &amp; JavaScript</p>
-    <div style="margin:40px 0 30px 0;">
-      <p style="font-size:12pt;">Submitted in partial fulfilment of the requirements</p>
-      <p style="font-size:12pt;">for the course of</p>
-      <p style="font-size:14pt;font-weight:bold;margin-top:6px;">Web Development &amp; Programming</p>
-    </div>
-    <div style="margin-top:30px;font-size:12pt;line-height:2.2;">
-      <p><strong>Submitted By:</strong> [Student Name]</p>
-      <p><strong>Roll No:</strong> [Roll Number]</p>
-      <p><strong>Class:</strong> [Class / Branch]</p>
-      <p><strong>Academic Year:</strong> 2025 – 2026</p>
-    </div>
-    <div style="margin-top:40px;font-size:12pt;">
-      <p><strong>Under the Guidance of:</strong></p>
-      <p style="margin-top:6px;">[Guide Name]</p>
-      <p>[Designation]</p>
-    </div>
-    <div style="margin-top:40px;border-top:1px solid #000;padding-top:18px;font-size:12pt;">
-      <p><strong>[Institution / College Name]</strong></p>
-      <p>[Department Name]</p>
-      <p>[City, State – PIN]</p>
-    </div>
+<!-- PAGE 1 – TITLE -->
+<div class="page cover">
+<div class="cover-box">
+  <p style="font-size:12pt;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">A Project Report On</p>
+  <h1 class="title">HTML To-Do List</h1>
+  <p style="font-size:13pt;font-style:italic;margin-top:10px;">Using HTML, CSS &amp; JavaScript</p>
+  <div style="margin:36px 0 28px;">
+    <p style="font-size:12pt;">Submitted in partial fulfilment of the requirements for the course of</p>
+    <p style="font-size:14pt;font-weight:bold;margin-top:6px;">Web Development &amp; Programming</p>
+  </div>
+  <div style="font-size:12pt;line-height:2.3;">
+    <p><strong>Submitted By :</strong> [Student Name]</p>
+    <p><strong>Roll No &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong> [Roll Number]</p>
+    <p><strong>Class &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong> [Class / Branch]</p>
+    <p><strong>Academic Year:</strong> 2025 – 2026</p>
+  </div>
+  <div style="margin-top:34px;font-size:12pt;line-height:2;">
+    <p><strong>Under the Guidance of :</strong></p>
+    <p>[Guide Name] &nbsp;|&nbsp; [Designation]</p>
+  </div>
+  <div style="margin-top:34px;border-top:1px solid #000;padding-top:16px;font-size:12pt;line-height:1.9;">
+    <p><strong>[Institution / College Name]</strong></p>
+    <p>[Department Name] &nbsp;|&nbsp; [City, State – PIN]</p>
   </div>
 </div>
-
-
-<!-- PAGE 2: TABLE OF CONTENTS -->
-<div class="page" style="page-break-before:always;">
-  <h2 style="font-size:16pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:2px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:30px;">Table of Contents</h2>
-  <table style="width:100%;border-collapse:collapse;font-size:12pt;">
-    <thead>
-      <tr style="background:#f0f0f0;">
-        <th style="border:1px solid #aaa;padding:10px 12px;text-align:center;width:60px;">Sr. No.</th>
-        <th style="border:1px solid #aaa;padding:10px 12px;text-align:left;">Title</th>
-        <th style="border:1px solid #aaa;padding:10px 12px;text-align:center;width:80px;">Page No.</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">1</td><td style="border:1px solid #aaa;padding:9px 12px;">Abstract</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">3</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">2</td><td style="border:1px solid #aaa;padding:9px 12px;">Objective</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">4</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">3</td><td style="border:1px solid #aaa;padding:9px 12px;">Introduction</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">5</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">4</td><td style="border:1px solid #aaa;padding:9px 12px;">Methodology</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">7</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">5</td><td style="border:1px solid #aaa;padding:9px 12px;">Technologies Used</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">9</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">6</td><td style="border:1px solid #aaa;padding:9px 12px;">System Design &amp; Architecture</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">11</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">7</td><td style="border:1px solid #aaa;padding:9px 12px;">Code</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">13</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">8</td><td style="border:1px solid #aaa;padding:9px 12px;">Results and Output</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">17</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">9</td><td style="border:1px solid #aaa;padding:9px 12px;">Conclusion</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">19</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">10</td><td style="border:1px solid #aaa;padding:9px 12px;">References</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;">20</td></tr>
-    </tbody>
-  </table>
 </div>
 
 
-<!-- PAGE 3: ABSTRACT -->
-<div class="page" style="page-break-before:always;">
-  <h2 style="font-size:16pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:2px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:28px;">Abstract</h2>
-  <p style="text-align:justify;margin-bottom:16px;">In today's rapidly advancing digital world, productivity and personal organisation have become more important than ever before. People are increasingly relying on digital tools to manage their daily tasks, set priorities, and track the completion of activities. Traditional pen-and-paper to-do lists, while still widely used, lack the interactivity and accessibility that modern web-based applications can provide.</p>
-  <p style="text-align:justify;margin-bottom:16px;">This project presents the design and development of a <strong>To-Do List Web Application</strong> built entirely using front-end web technologies — specifically HTML5, CSS3, and JavaScript. The application enables users to add, edit, delete, and mark tasks as complete, all through a clean and responsive user interface. Tasks are organised by priority levels (High, Medium, and Low) and can be assigned optional due dates to help users manage time-sensitive activities effectively.</p>
-  <p style="text-align:justify;margin-bottom:16px;">One of the key features of this application is the use of the browser's <strong>localStorage API</strong>, which allows tasks to persist between sessions without requiring any server-side backend or database. This makes the application lightweight, fast, and easy to deploy on any standard web server or even run directly in a browser.</p>
-  <p style="text-align:justify;margin-bottom:16px;">The application also includes filter functionality, allowing users to view tasks by their completion status or priority. A real-time statistics panel at the top of the application displays the total number of tasks, pending tasks, and completed tasks, providing users with a quick overview of their workload at a glance.</p>
-  <p style="text-align:justify;margin-bottom:16px;">The interface has been designed to be visually appealing and intuitive, incorporating modern design principles such as gradient backgrounds, card-style task items, smooth animations, and colour-coded priority badges. The application is responsive and accessible across a range of devices including desktops, tablets, and mobile phones.</p>
-  <p style="text-align:justify;">This report documents the full development lifecycle of the project — from the conceptualisation and objective setting to the design, implementation, and results. It also includes a discussion of the technologies used, the methodology followed, and a conclusion reflecting on the learning outcomes and future scope of the project.</p>
+<!-- PAGE 2 – TABLE OF CONTENTS -->
+<div class="page">
+<h2 class="sec">Table of Contents</h2>
+<table>
+<thead><tr><th style="width:55px;text-align:center;">Sr. No.</th><th>Title</th><th style="width:75px;text-align:center;">Page No.</th></tr></thead>
+<tbody>
+<tr><td style="text-align:center;">1</td><td>Abstract</td><td style="text-align:center;">3</td></tr>
+<tr><td style="text-align:center;">2</td><td>Objective</td><td style="text-align:center;">4</td></tr>
+<tr><td style="text-align:center;">3</td><td>Introduction</td><td style="text-align:center;">5</td></tr>
+<tr><td style="text-align:center;">4</td><td>Methodology</td><td style="text-align:center;">7</td></tr>
+<tr><td style="text-align:center;">5</td><td>Technologies Used</td><td style="text-align:center;">9</td></tr>
+<tr><td style="text-align:center;">6</td><td>System Design &amp; Architecture</td><td style="text-align:center;">11</td></tr>
+<tr><td style="text-align:center;">7</td><td>Code</td><td style="text-align:center;">13</td></tr>
+<tr><td style="text-align:center;">8</td><td>Results and Output</td><td style="text-align:center;">17</td></tr>
+<tr><td style="text-align:center;">9</td><td>Conclusion</td><td style="text-align:center;">19</td></tr>
+<tr><td style="text-align:center;">10</td><td>References</td><td style="text-align:center;">20</td></tr>
+</tbody>
+</table>
 </div>
 
 
-<!-- PAGE 4: OBJECTIVE -->
-<div class="page" style="page-break-before:always;">
-  <h2 style="font-size:16pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:2px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:28px;">Objective</h2>
-  <p style="text-align:justify;margin-bottom:16px;">The primary objective of this project is to design and develop a fully functional, interactive To-Do List application using core web technologies — HTML5, CSS3, and JavaScript — without the use of any external frameworks or libraries. The project aims to demonstrate the power of front-end web development in building practical, everyday tools that are both functional and visually appealing.</p>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:20px;">Specific Objectives:</h3>
-  <ol style="margin-left:25px;line-height:2.2;">
-    <li style="margin-bottom:10px;"><strong>Task Management:</strong> To allow users to easily add new tasks, edit existing ones, and delete tasks that are no longer needed, providing full CRUD (Create, Read, Update, Delete) functionality.</li>
-    <li style="margin-bottom:10px;"><strong>Priority Assignment:</strong> To enable users to assign a priority level — High, Medium, or Low — to each task, helping them focus on what matters most at any given time.</li>
-    <li style="margin-bottom:10px;"><strong>Due Date Tracking:</strong> To allow users to associate a due date with each task, and to visually flag tasks that have passed their deadline as overdue.</li>
-    <li style="margin-bottom:10px;"><strong>Task Filtering:</strong> To provide filtering options so that users can view all tasks, only pending tasks, only completed tasks, or tasks of a specific priority level.</li>
-    <li style="margin-bottom:10px;"><strong>Data Persistence:</strong> To utilise the browser's localStorage API so that tasks are saved locally and remain available even after the browser is closed and reopened, without the need for a backend server.</li>
-    <li style="margin-bottom:10px;"><strong>User Experience:</strong> To create a clean, intuitive, and responsive user interface that works seamlessly on all screen sizes and provides a pleasant experience for the user.</li>
-    <li style="margin-bottom:10px;"><strong>Statistics Display:</strong> To show real-time statistics including the total number of tasks, number of pending tasks, and number of completed tasks.</li>
-    <li style="margin-bottom:10px;"><strong>Educational Value:</strong> To serve as a learning exercise demonstrating the practical application of HTML structure, CSS styling, and JavaScript programming concepts including DOM manipulation, event handling, and Web Storage APIs.</li>
-  </ol>
+<!-- PAGE 3 – ABSTRACT -->
+<div class="page">
+<h2 class="sec">Abstract</h2>
+<p>In today's rapidly advancing digital world, productivity and personal organisation have become more important than ever before. People increasingly rely on digital tools to manage their daily tasks, set priorities, and track the completion of activities. Traditional pen-and-paper to-do lists, while still widely used, lack the interactivity and accessibility that modern web-based applications can provide.</p>
+<p>This project presents the design and development of a <strong>To-Do List Web Application</strong> built entirely using front-end web technologies — specifically HTML5, CSS3, and JavaScript. The application enables users to add, edit, delete, and mark tasks as complete, all through a clean and responsive user interface. Tasks are organised by priority levels (High, Medium, and Low) and can be assigned optional due dates to help users manage time-sensitive activities effectively.</p>
+<p>One of the key features of this application is the use of the browser's <strong>localStorage API</strong>, which allows tasks to persist between sessions without requiring any server-side backend or database. This makes the application lightweight, fast, and easy to deploy on any standard web server or even run directly in a browser.</p>
+<p>The application includes filter functionality, allowing users to view tasks by completion status or priority. A real-time statistics panel displays total tasks, pending tasks, and completed tasks, giving users an instant overview of their workload.</p>
+<p>The interface has been designed to be visually appealing and intuitive, incorporating modern design principles such as gradient backgrounds, card-style task items, smooth animations, and colour-coded priority badges. The application is responsive and works across desktops, tablets, and mobile phones.</p>
+<p>This report documents the full development lifecycle — from conceptualisation and objective setting to design, implementation, and results — along with a discussion of technologies used, the methodology followed, and a conclusion reflecting on learning outcomes and future scope.</p>
 </div>
 
 
-<!-- PAGE 5-6: INTRODUCTION -->
-<div class="page" style="page-break-before:always;">
-  <h2 style="font-size:16pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:2px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:28px;">Introduction</h2>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;">1.1 Background</h3>
-  <p style="text-align:justify;margin-bottom:16px;">The concept of a to-do list is as old as organised human activity itself. From handwritten notes on paper to printed planners, people have always needed a method to keep track of tasks, responsibilities, and goals. With the advent of the internet and the widespread adoption of personal computers and smartphones, the to-do list has evolved into a digital tool that is more powerful, accessible, and interactive than its paper-based predecessor.</p>
-  <p style="text-align:justify;margin-bottom:16px;">Web-based to-do list applications are among the most commonly built beginner projects in programming education, and for good reason. They require the developer to work with nearly all fundamental concepts of web development — structuring content with HTML, styling it with CSS, and adding interactivity with JavaScript. At the same time, they are immediately useful and relatable, making them ideal as a learning project.</p>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:20px;">1.2 Problem Statement</h3>
-  <p style="text-align:justify;margin-bottom:16px;">In daily life, individuals often struggle to keep track of multiple tasks across different contexts — work, study, household, personal projects, and social commitments. Without a structured system for managing these tasks, it is easy to forget deadlines, lose track of priorities, and feel overwhelmed by an unorganised workload.</p>
-  <p style="text-align:justify;margin-bottom:16px;">While many commercial task management tools exist (such as Todoist, Microsoft To Do, and Google Tasks), these platforms often require account registration, internet connectivity, and familiarity with complex interfaces. There is a genuine need for a simple, lightweight, browser-based tool that works entirely offline, requires no login, and focuses purely on the core functionality of managing a list of tasks.</p>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:20px;">1.3 Proposed Solution</h3>
-  <p style="text-align:justify;margin-bottom:16px;">This project proposes the development of a self-contained HTML To-Do List application that runs entirely in the web browser. The application is built using only standard web technologies — HTML5, CSS3, and vanilla JavaScript — and does not require any installation, server, or internet connection to function after the initial file download.</p>
-  <p style="text-align:justify;">The application provides all essential task management features while maintaining simplicity and ease of use. It is designed to be visually clean and modern, with a colour scheme and layout that encourages regular use. The use of localStorage ensures that the user's data is preserved between browser sessions, providing a seamless and reliable experience.</p>
+<!-- PAGE 4 – OBJECTIVE -->
+<div class="page">
+<h2 class="sec">Objective</h2>
+<p>The primary objective of this project is to design and develop a fully functional, interactive To-Do List application using core web technologies — HTML5, CSS3, and JavaScript — without any external frameworks or libraries. The project demonstrates the power of front-end web development in building practical, everyday tools that are both functional and visually appealing.</p>
+<h3 class="sub">Specific Objectives</h3>
+<ol>
+<li><strong>Task Management:</strong> Allow users to add, edit, and delete tasks — providing full CRUD (Create, Read, Update, Delete) functionality.</li>
+<li><strong>Priority Assignment:</strong> Enable users to assign a priority level — High, Medium, or Low — to each task, helping them focus on what matters most.</li>
+<li><strong>Due Date Tracking:</strong> Allow users to associate a due date with each task, and visually flag overdue tasks in red.</li>
+<li><strong>Task Filtering:</strong> Provide filtering so users can view All, Pending, Completed, or priority-specific tasks.</li>
+<li><strong>Data Persistence:</strong> Use the browser's localStorage API so tasks remain available after the browser is closed — no backend required.</li>
+<li><strong>User Experience:</strong> Create a clean, intuitive, and responsive UI that works on all screen sizes.</li>
+<li><strong>Real-Time Statistics:</strong> Show live counts of Total, Pending, and Completed tasks at the top of the page.</li>
+<li><strong>Educational Value:</strong> Serve as a learning exercise covering HTML structure, CSS styling, JavaScript DOM manipulation, event handling, and the Web Storage API.</li>
+</ol>
 </div>
 
 
-<!-- INTRODUCTION CONTINUED -->
-<div class="page" style="page-break-before:always;">
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;">1.4 Scope of the Project</h3>
-  <p style="text-align:justify;margin-bottom:16px;">The scope of this project covers the complete front-end development of a task management web application. The application is intended for individual use on a single device and browser. It does not include cloud synchronisation, multi-user support, or mobile app development, though these could be added in future iterations.</p>
-  <p style="text-align:justify;margin-bottom:16px;">The project covers the following areas:</p>
-  <ul style="margin-left:25px;line-height:2.2;margin-bottom:16px;">
-    <li>User interface design and development using HTML and CSS</li>
-    <li>Client-side scripting and dynamic content manipulation using JavaScript</li>
-    <li>Local data storage using the Web Storage API (localStorage)</li>
-    <li>Input validation and error handling</li>
-    <li>Responsive layout design for cross-device compatibility</li>
-  </ul>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:20px;">1.5 Overview of the Report</h3>
-  <p style="text-align:justify;margin-bottom:16px;">This report is organised into the following sections:</p>
-  <ul style="margin-left:25px;line-height:2.4;">
-    <li><strong>Abstract</strong> — A brief summary of the project, its features, and outcomes.</li>
-    <li><strong>Objective</strong> — The specific goals and targets of the project.</li>
-    <li><strong>Introduction</strong> — Background, problem statement, scope, and proposed solution.</li>
-    <li><strong>Methodology</strong> — The development approach, tools, and workflow used.</li>
-    <li><strong>Technologies Used</strong> — A detailed look at HTML5, CSS3, and JavaScript.</li>
-    <li><strong>System Design</strong> — Architecture, flowcharts, and feature breakdown.</li>
-    <li><strong>Code</strong> — The source code of the application with explanations.</li>
-    <li><strong>Results and Output</strong> — Screenshots and descriptions of the working application.</li>
-    <li><strong>Conclusion</strong> — Summary of achievements, learning outcomes, and future scope.</li>
-    <li><strong>References</strong> — Sources of information and documentation.</li>
-  </ul>
+<!-- PAGE 5 – INTRODUCTION part 1 -->
+<div class="page">
+<h2 class="sec">Introduction</h2>
+<h3 class="sub">1.1 Background</h3>
+<p>The concept of a to-do list is as old as organised human activity itself. From handwritten notes on paper to printed planners, people have always needed a method to keep track of tasks, responsibilities, and goals. With the advent of the internet and the widespread adoption of personal computers and smartphones, the to-do list has evolved into a digital tool that is more powerful, accessible, and interactive than its paper-based predecessor.</p>
+<p>Web-based to-do list applications are among the most commonly built beginner projects in programming education, and for good reason. They require the developer to work with nearly all fundamental concepts of web development — structuring content with HTML, styling it with CSS, and adding interactivity with JavaScript. At the same time, they are immediately useful and relatable, making them ideal as a learning project.</p>
+<h3 class="sub">1.2 Problem Statement</h3>
+<p>In daily life, individuals often struggle to keep track of multiple tasks across different contexts — work, study, household, personal projects, and social commitments. Without a structured system, it is easy to forget deadlines, lose track of priorities, and feel overwhelmed by an unorganised workload.</p>
+<p>While commercial task management tools exist (such as Todoist, Microsoft To Do, and Google Tasks), these platforms often require account registration, internet connectivity, and familiarity with complex interfaces. There is a genuine need for a simple, lightweight, browser-based tool that works offline, requires no login, and focuses purely on managing a list of tasks.</p>
+<h3 class="sub">1.3 Proposed Solution</h3>
+<p>This project proposes a self-contained HTML To-Do List application that runs entirely in the browser using only HTML5, CSS3, and vanilla JavaScript. It requires no installation, server, or internet connection after the initial file download, and uses localStorage to preserve tasks between sessions.</p>
 </div>
 
 
-<!-- PAGE 7-8: METHODOLOGY -->
-<div class="page" style="page-break-before:always;">
-  <h2 style="font-size:16pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:2px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:28px;">Methodology</h2>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;">3.1 Development Approach</h3>
-  <p style="text-align:justify;margin-bottom:16px;">The project followed an iterative development approach, which allowed for gradual refinement of features and design throughout the development process. Rather than completing the entire application in one go, the project was broken down into smaller phases, each of which was implemented and tested before moving to the next. This approach made it easier to identify issues early and make adjustments without disrupting the overall structure of the application.</p>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:20px;">3.2 Development Phases</h3>
-  <p style="font-size:12pt;margin-bottom:10px;"><strong>Phase 1 — Requirements Analysis:</strong></p>
-  <p style="text-align:justify;margin-bottom:14px;">The first step was to identify and define the core requirements of the application. This involved determining what features were essential (task addition, deletion, completion), what features would add significant value (priority levels, due dates, filtering), and what could be considered for future development (notifications, cloud sync).</p>
-  <p style="font-size:12pt;margin-bottom:10px;"><strong>Phase 2 — UI/UX Design Planning:</strong></p>
-  <p style="text-align:justify;margin-bottom:14px;">Before writing any code, the layout of the application was planned. A wireframe-style sketch was created to define the arrangement of elements — the header, statistics section, input area, filter bar, task list, and footer. Colour choices were made to create a visually appealing gradient theme using purple and blue tones.</p>
-  <p style="font-size:12pt;margin-bottom:10px;"><strong>Phase 3 — HTML Structure Development:</strong></p>
-  <p style="text-align:justify;margin-bottom:14px;">The HTML skeleton of the application was created, including all necessary elements — the container div, header section, stats boxes, input fields, select dropdown, filter buttons, task list container, and footer. Semantic HTML5 elements were used wherever applicable.</p>
-  <p style="font-size:12pt;margin-bottom:10px;"><strong>Phase 4 — CSS Styling:</strong></p>
-  <p style="text-align:justify;margin-bottom:14px;">The visual design was applied using CSS3. This included the gradient background, card-style task items, colour-coded priority badges, hover effects, transition animations, and responsive layout rules. CSS variables and modern properties such as flexbox, border-radius, and box-shadow were used extensively.</p>
+<!-- PAGE 6 – INTRODUCTION part 2 -->
+<div class="page">
+<h3 class="sub">1.4 Scope of the Project</h3>
+<p>The scope covers the complete front-end development of a personal task management web application, intended for individual use on a single device. It does not include cloud synchronisation or multi-user support, though those could be added in future iterations. The project covers:</p>
+<ul>
+<li>User interface design and development using HTML and CSS</li>
+<li>Client-side scripting and dynamic DOM manipulation using JavaScript</li>
+<li>Local data storage using the Web Storage API (localStorage)</li>
+<li>Input validation and user feedback mechanisms</li>
+<li>Responsive layout design for cross-device compatibility</li>
+</ul>
+<h3 class="sub">1.5 Overview of the Report</h3>
+<p>This report is organised into the following sections:</p>
+<ul>
+<li><strong>Abstract</strong> — A brief summary of the project, its features, and outcomes.</li>
+<li><strong>Objective</strong> — The specific goals and targets of the project.</li>
+<li><strong>Introduction</strong> — Background, problem statement, scope, and proposed solution.</li>
+<li><strong>Methodology</strong> — The development approach, tools, and workflow used.</li>
+<li><strong>Technologies Used</strong> — A detailed look at HTML5, CSS3, and JavaScript.</li>
+<li><strong>System Design</strong> — Architecture, flowcharts, and data model.</li>
+<li><strong>Code</strong> — The source code with explanations.</li>
+<li><strong>Results and Output</strong> — Simulated screenshots of the working application.</li>
+<li><strong>Conclusion</strong> — Summary, learning outcomes, challenges, and future scope.</li>
+<li><strong>References</strong> — Sources of information and documentation.</li>
+</ul>
 </div>
 
 
-<!-- METHODOLOGY CONTINUED -->
-<div class="page" style="page-break-before:always;">
-  <p style="font-size:12pt;margin-bottom:10px;"><strong>Phase 5 — JavaScript Functionality:</strong></p>
-  <p style="text-align:justify;margin-bottom:14px;">The core logic of the application was implemented in JavaScript. This phase included writing functions for adding tasks, toggling completion status, deleting tasks, editing tasks, filtering the task list, updating the statistics display, and managing localStorage for data persistence. Event listeners were attached to input fields and buttons to enable interactivity.</p>
-  <p style="font-size:12pt;margin-bottom:10px;"><strong>Phase 6 — Testing and Debugging:</strong></p>
-  <p style="text-align:justify;margin-bottom:14px;">After the core features were implemented, the application was thoroughly tested in different scenarios — adding multiple tasks, editing tasks with special characters, checking overdue detection accuracy, testing localStorage persistence by refreshing the browser, and verifying that all filter buttons work correctly. Any bugs identified were fixed promptly.</p>
-  <p style="font-size:12pt;margin-bottom:10px;"><strong>Phase 7 — Optimisation and Finalisation:</strong></p>
-  <p style="text-align:justify;margin-bottom:16px;">The final phase involved code cleanup, optimisation for readability and performance, and finalisation of the user interface. Comments were added to the code for clarity, and the overall layout was reviewed for consistency and polish.</p>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:20px;">3.3 Tools and Environment</h3>
-  <table style="width:100%;border-collapse:collapse;font-size:12pt;margin-bottom:16px;">
-    <thead>
-      <tr style="background:#f0f0f0;">
-        <th style="border:1px solid #aaa;padding:9px 12px;text-align:left;">Tool / Environment</th>
-        <th style="border:1px solid #aaa;padding:9px 12px;text-align:left;">Purpose</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td style="border:1px solid #aaa;padding:8px 12px;">VS Code / Text Editor</td><td style="border:1px solid #aaa;padding:8px 12px;">Writing and editing HTML, CSS, JavaScript code</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:8px 12px;">Google Chrome Browser</td><td style="border:1px solid #aaa;padding:8px 12px;">Testing and running the application</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:8px 12px;">Chrome DevTools</td><td style="border:1px solid #aaa;padding:8px 12px;">Debugging JavaScript and inspecting CSS</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:8px 12px;">GitHub</td><td style="border:1px solid #aaa;padding:8px 12px;">Version control and project repository hosting</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:8px 12px;">localStorage (Browser API)</td><td style="border:1px solid #aaa;padding:8px 12px;">Client-side data persistence without a database</td></tr>
-    </tbody>
-  </table>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:20px;">3.4 Testing Methodology</h3>
-  <p style="text-align:justify;">Manual black-box testing was employed to validate each feature of the application. Test cases were defined for each function — adding a task, editing a task, deleting a task, toggling completion, applying filters, and verifying localStorage persistence. Each test case was executed and its output compared with the expected result. Any discrepancy was treated as a bug and resolved before the final version was documented.</p>
+<!-- PAGE 7 – METHODOLOGY part 1 -->
+<div class="page">
+<h2 class="sec">Methodology</h2>
+<h3 class="sub">3.1 Development Approach</h3>
+<p>The project followed an <strong>iterative development approach</strong>, breaking the work into smaller phases, each implemented and tested before moving to the next. This made it easier to catch issues early and adjust without disrupting the overall structure.</p>
+<h3 class="sub">3.2 Development Phases</h3>
+<p><strong>Phase 1 — Requirements Analysis:</strong></p>
+<p>The first step was identifying core requirements: essential features (add, delete, complete tasks), value-adding features (priority levels, due dates, filtering), and future-scope features (notifications, cloud sync).</p>
+<p><strong>Phase 2 — UI/UX Design Planning:</strong></p>
+<p>Before writing any code, the layout was planned — header, statistics panel, input area, filter bar, task list, and footer. A purple-blue gradient colour scheme was chosen for visual appeal.</p>
+<p><strong>Phase 3 — HTML Structure Development:</strong></p>
+<p>The HTML skeleton was created with all necessary elements: container div, header, stats boxes, input fields, priority dropdown, filter buttons, task list container, and footer. Semantic HTML5 elements were used wherever applicable.</p>
+<p><strong>Phase 4 — CSS Styling:</strong></p>
+<p>The visual design was applied using CSS3: gradient background, card-style task items, colour-coded priority badges, hover effects, transition animations, and a responsive flexbox layout.</p>
 </div>
 
 
-<!-- PAGE 9-10: TECHNOLOGIES USED -->
-<div class="page" style="page-break-before:always;">
-  <h2 style="font-size:16pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:2px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:28px;">Technologies Used</h2>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;">4.1 HTML5 (HyperText Markup Language)</h3>
-  <p style="text-align:justify;margin-bottom:16px;">HTML5 is the fifth and current major version of the HyperText Markup Language, the standard language for creating the structure of web pages. In this project, HTML forms the backbone of the application — it defines all the visible elements including the heading, input fields, buttons, dropdown menus, and the task list container. HTML5 introduces several improvements over earlier versions, including new semantic elements, native support for date input fields, and better form validation capabilities, all of which have been utilised in this project.</p>
-  <p style="text-align:justify;margin-bottom:16px;">Key HTML5 features used in this project include the <code style="background:#f4f4f4;padding:2px 5px;border-radius:3px;font-size:11pt;">&lt;input type="date"&gt;</code> element for due date entry, <code style="background:#f4f4f4;padding:2px 5px;border-radius:3px;font-size:11pt;">&lt;select&gt;</code> for priority dropdown, and <code style="background:#f4f4f4;padding:2px 5px;border-radius:3px;font-size:11pt;">&lt;input type="checkbox"&gt;</code> for task completion toggling.</p>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:20px;">4.2 CSS3 (Cascading Style Sheets)</h3>
-  <p style="text-align:justify;margin-bottom:16px;">CSS3 is the latest evolution of the Cascading Style Sheets language, used to control the visual appearance of HTML elements. CSS3 introduces advanced features such as transitions, animations, gradients, flexbox layout, media queries, and border-radius, all of which have been used extensively in this project.</p>
-  <p style="text-align:justify;margin-bottom:16px;">The application's visual design was entirely crafted using CSS3. The gradient purple-blue colour scheme was achieved using the <code style="background:#f4f4f4;padding:2px 5px;border-radius:3px;font-size:11pt;">linear-gradient()</code> function. Flexbox was used to lay out elements in rows and columns. The <code style="background:#f4f4f4;padding:2px 5px;border-radius:3px;font-size:11pt;">@keyframes</code> rule was used to create a smooth slide-in animation for newly added tasks. Media queries ensure the layout is responsive on smaller screens.</p>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:20px;">4.3 JavaScript (ES6+)</h3>
-  <p style="text-align:justify;margin-bottom:16px;">JavaScript is the scripting language of the web, enabling dynamic and interactive behaviour on web pages. In this project, all the functional logic — adding tasks, filtering, editing, deleting, and persisting data — is handled by JavaScript. Modern ES6+ features such as arrow functions, template literals, destructuring, the spread operator, and <code style="background:#f4f4f4;padding:2px 5px;border-radius:3px;font-size:11pt;">JSON.parse</code> / <code style="background:#f4f4f4;padding:2px 5px;border-radius:3px;font-size:11pt;">JSON.stringify</code> for storage, have been used throughout the code.</p>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:20px;">4.4 Web Storage API (localStorage)</h3>
-  <p style="text-align:justify;">The Web Storage API provides mechanisms for storing key-value pairs in the browser. The <code style="background:#f4f4f4;padding:2px 5px;border-radius:3px;font-size:11pt;">localStorage</code> object was used to save the tasks array as a JSON string on the user's browser. This ensures that all tasks are preserved even after the browser is closed, without requiring a backend database or server-side code. The storage limit for localStorage is typically 5–10 MB per domain, which is more than adequate for a personal task list.</p>
+<!-- PAGE 8 – METHODOLOGY part 2 -->
+<div class="page">
+<p><strong>Phase 5 — JavaScript Functionality:</strong></p>
+<p>All core logic was implemented in JavaScript: adding tasks, toggling completion, deleting, editing, filtering, updating statistics, and managing localStorage for data persistence.</p>
+<p><strong>Phase 6 — Testing and Debugging:</strong></p>
+<p>The application was tested in multiple scenarios — adding multiple tasks, editing tasks with special characters, checking overdue detection, verifying localStorage persistence across browser refreshes, and confirming all filter buttons work correctly. Bugs were fixed promptly.</p>
+<p><strong>Phase 7 — Optimisation and Finalisation:</strong></p>
+<p>The final phase involved code cleanup, comments for clarity, performance optimisation, and a final review of the user interface for consistency.</p>
+<h3 class="sub">3.3 Tools and Environment</h3>
+<table>
+<thead><tr><th>Tool / Environment</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td>VS Code / Text Editor</td><td>Writing and editing HTML, CSS, JavaScript code</td></tr>
+<tr><td>Google Chrome Browser</td><td>Running and testing the application</td></tr>
+<tr><td>Chrome DevTools</td><td>Debugging JavaScript and inspecting CSS</td></tr>
+<tr><td>GitHub</td><td>Version control and project repository hosting</td></tr>
+<tr><td>localStorage (Browser API)</td><td>Client-side data persistence without a database</td></tr>
+</tbody>
+</table>
+<h3 class="sub">3.4 Testing Methodology</h3>
+<p>Manual black-box testing was employed to validate each feature. Test cases were defined for every function — adding, editing, deleting, toggling, filtering, and localStorage persistence. Each test was executed and its output compared against the expected result. Any discrepancy was treated as a bug and resolved before documentation.</p>
 </div>
 
 
-<!-- PAGE 11-12: SYSTEM DESIGN -->
-<div class="page" style="page-break-before:always;">
-  <h2 style="font-size:16pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:2px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:28px;">System Design &amp; Architecture</h2>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;">5.1 Application Architecture</h3>
-  <p style="text-align:justify;margin-bottom:16px;">The application follows a single-page architecture (SPA) pattern, where the entire application runs on a single HTML file. All rendering is handled dynamically by JavaScript — when the user interacts with the application, JavaScript updates the DOM (Document Object Model) in real time without requiring any page reload. This architecture results in a fast and smooth user experience.</p>
-  <p style="text-align:justify;margin-bottom:16px;">The application is structured as three layers:</p>
-  <ul style="margin-left:25px;line-height:2.2;margin-bottom:16px;">
-    <li><strong>Presentation Layer (HTML + CSS):</strong> Defines the layout and visual appearance of the application.</li>
-    <li><strong>Logic Layer (JavaScript):</strong> Handles all user interactions, data manipulation, and DOM updates.</li>
-    <li><strong>Storage Layer (localStorage):</strong> Persists task data between sessions in the browser.</li>
-  </ul>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:16px;margin-top:20px;">5.2 Application Flowchart</h3>
-  <!-- ASCII-style flowchart using a table -->
-  <div style="font-family:'Times New Roman';font-size:11pt;text-align:center;margin:0 auto;width:80%;">
-    <div style="border:2px solid #333;border-radius:50px;padding:10px 20px;display:inline-block;background:#e8f0ff;margin-bottom:5px;">START: Page Loads</div>
-    <div style="font-size:18pt;line-height:1;">↓</div>
-    <div style="border:2px solid #333;padding:10px 20px;display:inline-block;background:#fff8e1;margin-bottom:5px;">Load tasks from localStorage</div>
-    <div style="font-size:18pt;line-height:1;">↓</div>
-    <div style="border:2px solid #333;padding:10px 20px;display:inline-block;background:#fff8e1;margin-bottom:5px;">Render task list on screen</div>
-    <div style="font-size:18pt;line-height:1;">↓</div>
-    <div style="border:2px solid #333;border-radius:8px;padding:10px 20px;display:inline-block;background:#e8ffe8;margin-bottom:5px;">User Action? (Add / Edit / Delete / Toggle / Filter)</div>
-    <div style="font-size:18pt;line-height:1;">↓</div>
-    <div style="border:2px solid #333;padding:10px 20px;display:inline-block;background:#fff8e1;margin-bottom:5px;">Update tasks array in memory</div>
-    <div style="font-size:18pt;line-height:1;">↓</div>
-    <div style="border:2px solid #333;padding:10px 20px;display:inline-block;background:#fff8e1;margin-bottom:5px;">Save updated tasks to localStorage</div>
-    <div style="font-size:18pt;line-height:1;">↓</div>
-    <div style="border:2px solid #333;padding:10px 20px;display:inline-block;background:#fff8e1;margin-bottom:5px;">Re-render task list and update statistics</div>
-    <div style="font-size:18pt;line-height:1;">↓</div>
-    <div style="border:2px solid #333;border-radius:50px;padding:10px 20px;display:inline-block;background:#ffe8e8;margin-bottom:5px;">Wait for next user action (Loop)</div>
-  </div>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:24px;">5.3 Data Model</h3>
-  <p style="text-align:justify;margin-bottom:10px;">Each task is represented as a JavaScript object with the following properties:</p>
-  <table style="width:100%;border-collapse:collapse;font-size:11.5pt;">
-    <thead>
-      <tr style="background:#f0f0f0;">
-        <th style="border:1px solid #aaa;padding:8px 12px;text-align:left;">Property</th>
-        <th style="border:1px solid #aaa;padding:8px 12px;text-align:left;">Type</th>
-        <th style="border:1px solid #aaa;padding:8px 12px;text-align:left;">Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td style="border:1px solid #aaa;padding:7px 12px;">id</td><td style="border:1px solid #aaa;padding:7px 12px;">String</td><td style="border:1px solid #aaa;padding:7px 12px;">Unique identifier generated from timestamp + random value</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:7px 12px;">text</td><td style="border:1px solid #aaa;padding:7px 12px;">String</td><td style="border:1px solid #aaa;padding:7px 12px;">The task description entered by the user</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:7px 12px;">priority</td><td style="border:1px solid #aaa;padding:7px 12px;">String</td><td style="border:1px solid #aaa;padding:7px 12px;">"high", "medium", or "low"</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:7px 12px;">dueDate</td><td style="border:1px solid #aaa;padding:7px 12px;">String</td><td style="border:1px solid #aaa;padding:7px 12px;">ISO date string (YYYY-MM-DD) or empty string</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:7px 12px;">completed</td><td style="border:1px solid #aaa;padding:7px 12px;">Boolean</td><td style="border:1px solid #aaa;padding:7px 12px;">true if task is marked complete, false otherwise</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:7px 12px;">createdAt</td><td style="border:1px solid #aaa;padding:7px 12px;">String</td><td style="border:1px solid #aaa;padding:7px 12px;">ISO timestamp of when the task was created</td></tr>
-    </tbody>
-  </table>
+<!-- PAGE 9 – TECHNOLOGIES USED -->
+<div class="page">
+<h2 class="sec">Technologies Used</h2>
+<h3 class="sub">4.1 HTML5 (HyperText Markup Language)</h3>
+<p>HTML5 is the standard language for creating web page structure. In this project, HTML defines all visible elements including the heading, input fields, buttons, dropdown menus, and the task list container. HTML5 improvements used include the native <code>&lt;input type="date"&gt;</code> element for due date entry, <code>&lt;select&gt;</code> for the priority dropdown, and <code>&lt;input type="checkbox"&gt;</code> for task completion toggling.</p>
+<h3 class="sub">4.2 CSS3 (Cascading Style Sheets)</h3>
+<p>CSS3 controls the visual appearance of HTML elements and introduces advanced features such as transitions, animations, gradients, flexbox, media queries, and border-radius. The gradient purple-blue colour scheme uses the <code>linear-gradient()</code> function. Flexbox lays out elements in rows and columns. The <code>@keyframes</code> rule creates a smooth slide-in animation for newly added tasks. Media queries ensure responsiveness on smaller screens.</p>
+<h3 class="sub">4.3 JavaScript (ES6+)</h3>
+<p>JavaScript enables dynamic and interactive behaviour on web pages. All functional logic — adding tasks, filtering, editing, deleting, and persisting data — is handled by JavaScript. Modern ES6+ features used include arrow functions, template literals, array methods (<code>.find()</code>, <code>.filter()</code>, <code>.map()</code>), and <code>JSON.parse</code> / <code>JSON.stringify</code> for storage.</p>
+<h3 class="sub">4.4 Web Storage API (localStorage)</h3>
+<p>The <code>localStorage</code> object stores the tasks array as a JSON string in the user's browser. Tasks are preserved even after the browser closes — no backend database or server-side code is required. The typical storage limit is 5–10 MB per domain, which is more than adequate for a personal task list.</p>
 </div>
 
 
-<!-- PAGE 13-16: CODE -->
-<div class="page" style="page-break-before:always;">
-  <h2 style="font-size:16pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:2px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:28px;">Code</h2>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:14px;">6.1 HTML Structure</h3>
-  <p style="text-align:justify;margin-bottom:12px;">The HTML section defines the entire structure of the application. Below is the core structural markup:</p>
-  <pre style="background:#f4f4f4;border:1px solid #ccc;border-radius:6px;padding:14px;font-size:9.5pt;font-family:'Courier New',monospace;overflow-x:auto;line-height:1.6;white-space:pre-wrap;">&lt;!DOCTYPE html&gt;
+<!-- PAGE 10 – TECHNOLOGIES part 2 (DOM + responsiveness) -->
+<div class="page">
+<h3 class="sub">4.5 DOM (Document Object Model)</h3>
+<p>The DOM is a programming interface for HTML documents. It represents the page as a tree of objects so that JavaScript can programmatically access and manipulate content, structure, and style. In this project, <code>document.getElementById()</code>, <code>document.querySelectorAll()</code>, and <code>innerHTML</code> are used extensively to dynamically render and update the task list without any page reloads, making the application feel like a native desktop app.</p>
+<h3 class="sub">4.6 Responsive Design</h3>
+<p>The application is built using a fluid, flexbox-based layout. The container has a <code>max-width</code> of 600px and uses percentage-based widths and CSS flexbox so that it adapts gracefully to any screen size — from a wide desktop monitor down to a small mobile phone screen. No external CSS framework (such as Bootstrap) was required; all responsiveness was achieved with native CSS3 only.</p>
+<h3 class="sub">4.7 Summary of Technologies</h3>
+<table>
+<thead><tr><th>Technology</th><th>Version</th><th>Role in Project</th></tr></thead>
+<tbody>
+<tr><td>HTML</td><td>HTML5</td><td>Page structure and semantic markup</td></tr>
+<tr><td>CSS</td><td>CSS3</td><td>Visual design, layout, animations</td></tr>
+<tr><td>JavaScript</td><td>ES6+</td><td>Interactivity, logic, DOM updates</td></tr>
+<tr><td>Web Storage API</td><td>Browser built-in</td><td>Persistent client-side data storage</td></tr>
+<tr><td>Google Chrome</td><td>Latest</td><td>Primary development &amp; test browser</td></tr>
+</tbody>
+</table>
+</div>
+
+
+<!-- PAGE 11 – SYSTEM DESIGN part 1 -->
+<div class="page">
+<h2 class="sec">System Design &amp; Architecture</h2>
+<h3 class="sub">5.1 Application Architecture</h3>
+<p>The application follows a <strong>Single-Page Architecture (SPA)</strong> pattern — the entire app runs inside one HTML file. JavaScript updates the DOM in real time without page reloads, producing a fast and seamless user experience. The application is structured as three logical layers:</p>
+<ul>
+<li><strong>Presentation Layer (HTML + CSS):</strong> Defines layout and visual appearance.</li>
+<li><strong>Logic Layer (JavaScript):</strong> Handles all user interactions and data manipulation.</li>
+<li><strong>Storage Layer (localStorage):</strong> Persists task data between browser sessions.</li>
+</ul>
+<h3 class="sub">5.2 Application Flowchart</h3>
+<div class="flow">
+  <div class="fstart">START: Page Loads</div><span class="arr">↓</span>
+  <div class="fstep">Load tasks array from localStorage</div><span class="arr">↓</span>
+  <div class="fstep">Render task list &amp; update statistics</div><span class="arr">↓</span>
+  <div class="fdec">User Action? (Add / Edit / Delete / Toggle / Filter)</div><span class="arr">↓</span>
+  <div class="fstep">Update in-memory tasks array</div><span class="arr">↓</span>
+  <div class="fstep">Save updated array to localStorage</div><span class="arr">↓</span>
+  <div class="fstep">Re-render task list &amp; statistics</div><span class="arr">↓</span>
+  <div class="fend">Wait for next user action (loop)</div>
+</div>
+</div>
+
+
+<!-- PAGE 12 – SYSTEM DESIGN part 2 -->
+<div class="page">
+<h3 class="sub">5.3 Data Model</h3>
+<p>Each task is a JavaScript object stored inside a <code>tasks[]</code> array which is serialised as JSON in localStorage. The object has the following properties:</p>
+<table>
+<thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>id</td><td>String</td><td>Unique identifier (timestamp + random string)</td></tr>
+<tr><td>text</td><td>String</td><td>The task description entered by the user</td></tr>
+<tr><td>priority</td><td>String</td><td>"high", "medium", or "low"</td></tr>
+<tr><td>dueDate</td><td>String</td><td>ISO date (YYYY-MM-DD) or empty string</td></tr>
+<tr><td>completed</td><td>Boolean</td><td>true if the task is marked complete</td></tr>
+<tr><td>createdAt</td><td>String</td><td>ISO timestamp of when the task was created</td></tr>
+</tbody>
+</table>
+<h3 class="sub">5.4 Function Summary</h3>
+<table>
+<thead><tr><th>Function</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><code>addTask()</code></td><td>Reads input, validates, creates task object, prepends to array, saves &amp; renders</td></tr>
+<tr><td><code>deleteTask(id)</code></td><td>Filters out the task with matching id, saves &amp; renders</td></tr>
+<tr><td><code>toggleTask(id)</code></td><td>Flips the completed flag of the matching task, saves &amp; renders</td></tr>
+<tr><td><code>editTask(id)</code></td><td>Prompts user for new text, updates task.text, saves &amp; renders</td></tr>
+<tr><td><code>setFilter(f,btn)</code></td><td>Sets currentFilter variable, toggles active class on button, re-renders</td></tr>
+<tr><td><code>clearCompleted()</code></td><td>Removes all tasks where completed === true, saves &amp; renders</td></tr>
+<tr><td><code>renderTasks()</code></td><td>Filters array by currentFilter, updates stat counts, builds task HTML</td></tr>
+<tr><td><code>saveTasks()</code></td><td>Serialises tasks array to JSON and writes to localStorage</td></tr>
+<tr><td><code>isOverdue(date)</code></td><td>Compares due date with today; returns true if task is overdue</td></tr>
+</tbody>
+</table>
+</div>
+
+
+<!-- PAGE 13 – CODE: HTML -->
+<div class="page">
+<h2 class="sec">Code</h2>
+<h3 class="sub">6.1 HTML Structure</h3>
+<p>The HTML skeleton defines all visible elements. Below is the core structural markup of the application:</p>
+<pre>&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
-  &lt;meta charset="UTF-8" /&gt;
-  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"/&gt;
+  &lt;meta charset="UTF-8"/&gt;
   &lt;title&gt;To Do List&lt;/title&gt;
+  &lt;!-- CSS styles here --&gt;
 &lt;/head&gt;
 &lt;body&gt;
   &lt;div class="container"&gt;
@@ -315,90 +330,81 @@
       &lt;p&gt;Stay organised. Stay productive.&lt;/p&gt;
     &lt;/div&gt;
 
-    &lt;!-- Stats --&gt;
+    &lt;!-- Live Statistics --&gt;
     &lt;div class="stats"&gt;
       &lt;div class="stat-box"&gt;
-        &lt;span class="count" id="totalCount"&gt;0&lt;/span&gt;
-        &lt;span class="label"&gt;Total&lt;/span&gt;
+        &lt;span id="totalCount"&gt;0&lt;/span&gt;
+        &lt;span&gt;Total&lt;/span&gt;
       &lt;/div&gt;
       &lt;div class="stat-box"&gt;
-        &lt;span class="count" id="pendingCount"&gt;0&lt;/span&gt;
-        &lt;span class="label"&gt;Pending&lt;/span&gt;
+        &lt;span id="pendingCount"&gt;0&lt;/span&gt;
+        &lt;span&gt;Pending&lt;/span&gt;
       &lt;/div&gt;
       &lt;div class="stat-box"&gt;
-        &lt;span class="count" id="completedCount"&gt;0&lt;/span&gt;
-        &lt;span class="label"&gt;Completed&lt;/span&gt;
+        &lt;span id="completedCount"&gt;0&lt;/span&gt;
+        &lt;span&gt;Completed&lt;/span&gt;
       &lt;/div&gt;
     &lt;/div&gt;
 
     &lt;!-- Input Area --&gt;
     &lt;div class="input-area"&gt;
-      &lt;div class="input-row"&gt;
-        &lt;input type="text" id="taskInput"
-               placeholder="Enter a new task..." /&gt;
-        &lt;select id="prioritySelect"&gt;
-          &lt;option value="low"&gt;🟢 Low&lt;/option&gt;
-          &lt;option value="medium" selected&gt;🟡 Medium&lt;/option&gt;
-          &lt;option value="high"&gt;🔴 High&lt;/option&gt;
-        &lt;/select&gt;
-        &lt;button class="btn-add" onclick="addTask()"&gt;＋&lt;/button&gt;
-      &lt;/div&gt;
-      &lt;input type="date" id="dueDateInput" class="date-input" /&gt;
+      &lt;input type="text" id="taskInput" placeholder="Enter a new task..."/&gt;
+      &lt;select id="prioritySelect"&gt;
+        &lt;option value="low"&gt;🟢 Low&lt;/option&gt;
+        &lt;option value="medium" selected&gt;🟡 Medium&lt;/option&gt;
+        &lt;option value="high"&gt;🔴 High&lt;/option&gt;
+      &lt;/select&gt;
+      &lt;button onclick="addTask()"&gt;＋&lt;/button&gt;
+      &lt;input type="date" id="dueDateInput"/&gt;
     &lt;/div&gt;
 
-    &lt;!-- Filters --&gt;
+    &lt;!-- Filter Buttons --&gt;
     &lt;div class="filters"&gt;
-      &lt;button class="filter-btn active"
-              onclick="setFilter('all', this)"&gt;All&lt;/button&gt;
-      &lt;button class="filter-btn"
-              onclick="setFilter('pending', this)"&gt;Pending&lt;/button&gt;
-      &lt;button class="filter-btn"
-              onclick="setFilter('completed', this)"&gt;Completed&lt;/button&gt;
+      &lt;button class="filter-btn active" onclick="setFilter('all',this)"&gt;All&lt;/button&gt;
+      &lt;button class="filter-btn" onclick="setFilter('pending',this)"&gt;Pending&lt;/button&gt;
+      &lt;button class="filter-btn" onclick="setFilter('completed',this)"&gt;Completed&lt;/button&gt;
+      &lt;button class="filter-btn" onclick="setFilter('high',this)"&gt;🔴 High&lt;/button&gt;
     &lt;/div&gt;
 
-    &lt;!-- Task List --&gt;
-    &lt;div class="task-list" id="taskList"&gt;&lt;/div&gt;
+    &lt;!-- Task List (built by JS) --&gt;
+    &lt;div id="taskList"&gt;&lt;/div&gt;
 
     &lt;!-- Footer --&gt;
-    &lt;div class="footer-actions"&gt;
-      &lt;button class="btn-clear"
-              onclick="clearCompleted()"&gt;Clear Completed&lt;/button&gt;
+    &lt;div class="footer"&gt;
+      &lt;button onclick="clearCompleted()"&gt;Clear Completed&lt;/button&gt;
     &lt;/div&gt;
   &lt;/div&gt;
+  &lt;!-- JavaScript here --&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre>
 </div>
 
 
-<!-- CODE CONTINUED: CSS -->
-<div class="page" style="page-break-before:always;">
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:14px;">6.2 Key CSS Styling</h3>
-  <p style="text-align:justify;margin-bottom:12px;">The following CSS excerpt shows the core styling rules for the container, header, and task items:</p>
-  <pre style="background:#f4f4f4;border:1px solid #ccc;border-radius:6px;padding:14px;font-size:9.5pt;font-family:'Courier New',monospace;overflow-x:auto;line-height:1.6;white-space:pre-wrap;">body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+<!-- PAGE 14 – CODE: CSS -->
+<div class="page">
+<h3 class="sub">6.2 Key CSS Styling</h3>
+<p>The following CSS excerpt shows the core styling rules for the body, container, header, task items, and priority badges:</p>
+<pre>body {
+  font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
   padding: 40px 20px;
 }
-
 .container {
-  background: #ffffff;
+  background: #fff;
   border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
   width: 100%;
   max-width: 600px;
 }
-
 .header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   padding: 30px;
   text-align: center;
 }
-
 .task-item {
   display: flex;
   align-items: center;
@@ -408,46 +414,38 @@
   border-radius: 12px;
   padding: 14px 16px;
   margin-bottom: 12px;
-  transition: all 0.3s;
   animation: slideIn 0.3s ease;
 }
-
 @keyframes slideIn {
   from { opacity: 0; transform: translateY(-10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 .task-item.completed {
   opacity: 0.6;
   background: #f0f0f0;
 }
-
 .task-item.completed .task-text {
   text-decoration: line-through;
   color: #999;
 }
-
-/* Priority badges */
+/* Priority badge colours */
 .priority-high   { background: #ffe0e0; color: #e53935; }
 .priority-medium { background: #fff3cd; color: #f57c00; }
 .priority-low    { background: #e8f5e9; color: #2e7d32; }
-
-.due-date.overdue {
-  color: #e53935;
-  font-weight: 600;
-}</pre>
+/* Overdue due date shown in red */
+.due-date.overdue { color: #e53935; font-weight: 600; }</pre>
 </div>
 
 
-<!-- CODE CONTINUED: JavaScript -->
-<div class="page" style="page-break-before:always;">
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:14px;">6.3 JavaScript Logic</h3>
-  <p style="text-align:justify;margin-bottom:12px;">The following JavaScript code handles all the core functionality of the application:</p>
-  <pre style="background:#f4f4f4;border:1px solid #ccc;border-radius:6px;padding:14px;font-size:9pt;font-family:'Courier New',monospace;overflow-x:auto;line-height:1.6;white-space:pre-wrap;">// Load saved tasks from localStorage on startup
+<!-- PAGE 15 – CODE: JavaScript part 1 -->
+<div class="page">
+<h3 class="sub">6.3 JavaScript – Core Logic (Part 1)</h3>
+<p>The following JavaScript handles data initialisation, saving, task creation, and deletion:</p>
+<pre>// Initialise: load from localStorage or start empty
 let tasks = JSON.parse(localStorage.getItem('todoTasks')) || [];
 let currentFilter = 'all';
 
-// Save tasks array to localStorage
+// Persist the tasks array to localStorage
 function saveTasks() {
   localStorage.setItem('todoTasks', JSON.stringify(tasks));
 }
@@ -457,65 +455,59 @@ function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
 
-// ADD a new task to the list
+// ADD a new task
 function addTask() {
   const input    = document.getElementById('taskInput');
   const priority = document.getElementById('prioritySelect').value;
   const dueDate  = document.getElementById('dueDateInput').value;
   const text     = input.value.trim();
 
-  if (!text) {          // Validation: do not add empty tasks
+  if (!text) {   // Reject empty input
     input.style.borderColor = '#e53935';
     setTimeout(() => input.style.borderColor = '#e0e4ff', 1500);
     return;
   }
 
-  const task = {
+  tasks.unshift({           // Add to beginning of array
     id: generateId(),
-    text: text,
-    priority: priority,
-    dueDate: dueDate,
+    text, priority, dueDate,
     completed: false,
     createdAt: new Date().toISOString()
-  };
+  });
 
-  tasks.unshift(task);  // Add new task at the beginning
   saveTasks();
   renderTasks();
   input.value = '';
   document.getElementById('dueDateInput').value = '';
 }
 
-// TOGGLE task completion status
-function toggleTask(id) {
-  const task = tasks.find(t => t.id === id);
-  if (task) {
-    task.completed = !task.completed;
-    saveTasks();
-    renderTasks();
-  }
-}
-
-// DELETE a task by ID
+// DELETE a task by id
 function deleteTask(id) {
   tasks = tasks.filter(t => t.id !== id);
   saveTasks();
   renderTasks();
 }
 
-// EDIT a task's text using a prompt dialog
-function editTask(id) {
-  const task = tasks.find(t => t.id === id);
-  if (!task) return;
-  const newText = prompt('Edit task:', task.text);
-  if (newText && newText.trim()) {
-    task.text = newText.trim();
-    saveTasks();
-    renderTasks();
-  }
+// TOGGLE completion status
+function toggleTask(id) {
+  const t = tasks.find(t => t.id === id);
+  if (t) { t.completed = !t.completed; saveTasks(); renderTasks(); }
 }
 
-// SET active filter and re-render
+// EDIT task text
+function editTask(id) {
+  const t = tasks.find(t => t.id === id);
+  if (!t) return;
+  const n = prompt('Edit task:', t.text);
+  if (n && n.trim()) { t.text = n.trim(); saveTasks(); renderTasks(); }
+}</pre>
+</div>
+
+
+<!-- PAGE 16 – CODE: JavaScript part 2 -->
+<div class="page">
+<h3 class="sub">6.4 JavaScript – Filtering &amp; Rendering (Part 2)</h3>
+<pre>// SET active filter and re-render
 function setFilter(filter, btn) {
   currentFilter = filter;
   document.querySelectorAll('.filter-btn')
@@ -524,14 +516,14 @@ function setFilter(filter, btn) {
   renderTasks();
 }
 
-// CLEAR all completed tasks
+// CLEAR all completed tasks at once
 function clearCompleted() {
   tasks = tasks.filter(t => !t.completed);
   saveTasks();
   renderTasks();
 }
 
-// CHECK if a task's due date has passed
+// CHECK if a task's due date has already passed
 function isOverdue(dueDate) {
   if (!dueDate) return false;
   const today = new Date();
@@ -539,211 +531,214 @@ function isOverdue(dueDate) {
   return new Date(dueDate) &lt; today;
 }
 
-// RENDER tasks to the DOM based on current filter
-function renderTasks() {
-  let filtered = tasks;
-  if (currentFilter === 'pending')   filtered = tasks.filter(t => !t.completed);
-  if (currentFilter === 'completed') filtered = tasks.filter(t =>  t.completed);
-  if (currentFilter === 'high')      filtered = tasks.filter(t => t.priority==='high');
+// FORMAT date for display
+function formatDate(str) {
+  if (!str) return '';
+  return new Date(str).toLocaleDateString('en-GB',
+    { day:'2-digit', month:'short', year:'numeric' });
+}
 
-  // Update statistics
-  document.getElementById('totalCount').textContent = tasks.length;
-  document.getElementById('pendingCount').textContent =
-      tasks.filter(t => !t.completed).length;
-  document.getElementById('completedCount').textContent =
-      tasks.filter(t =>  t.completed).length;
+// RENDER the task list based on currentFilter
+function renderTasks() {
+  // Apply filter
+  const map = { all: () => true, pending: t => !t.completed,
+                completed: t => t.completed,
+                high: t => t.priority==='high',
+                medium: t => t.priority==='medium',
+                low: t => t.priority==='low' };
+  const filtered = tasks.filter(map[currentFilter] || map.all);
+
+  // Update stat counters
+  document.getElementById('totalCount').textContent     = tasks.length;
+  document.getElementById('pendingCount').textContent   = tasks.filter(t=>!t.completed).length;
+  document.getElementById('completedCount').textContent = tasks.filter(t=> t.completed).length;
 
   const list = document.getElementById('taskList');
-  if (filtered.length === 0) {
+  if (!filtered.length) {
     list.innerHTML = '&lt;div class="empty-state"&gt;No tasks found.&lt;/div&gt;';
     return;
   }
+
   list.innerHTML = filtered.map(task => `
     &lt;div class="task-item ${task.completed ? 'completed' : ''}"&gt;
-      &lt;input type="checkbox" class="task-checkbox"
-        ${task.completed ? 'checked' : ''}
-        onchange="toggleTask('${task.id}')" /&gt;
+      &lt;input type="checkbox" ${task.completed?'checked':''}
+             onchange="toggleTask('${task.id}')"&gt;
       &lt;div class="task-content"&gt;
-        &lt;div class="task-text"&gt;${task.text}&lt;/div&gt;
+        &lt;div class="task-text"&gt;${escapeHtml(task.text)}&lt;/div&gt;
         &lt;span class="priority-badge priority-${task.priority}"&gt;
-          ${task.priority}
-        &lt;/span&gt;
+          ${task.priority}&lt;/span&gt;
+        ${task.dueDate ? `&lt;span class="due-date
+          ${!task.completed && isOverdue(task.dueDate) ? 'overdue':''}"&gt;
+          📅 ${formatDate(task.dueDate)}&lt;/span&gt;` : ''}
       &lt;/div&gt;
       &lt;button onclick="editTask('${task.id}')"&gt;✏️&lt;/button&gt;
       &lt;button onclick="deleteTask('${task.id}')"&gt;🗑️&lt;/button&gt;
     &lt;/div&gt;`).join('');
 }
 
+// Prevent XSS when displaying user-entered text
+function escapeHtml(t) {
+  const d = document.createElement('div');
+  d.appendChild(document.createTextNode(t));
+  return d.innerHTML;
+}
+
+// Allow Enter key to add task
+document.getElementById('taskInput')
+        .addEventListener('keypress', e => { if(e.key==='Enter') addTask(); });
+
 renderTasks(); // Initial render on page load</pre>
 </div>
 
 
-<!-- PAGE 17-18: RESULTS AND OUTPUT -->
-<div class="page" style="page-break-before:always;">
-  <h2 style="font-size:16pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:2px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:28px;">Results and Output</h2>
-  <p style="text-align:justify;margin-bottom:20px;">The application was successfully developed and tested in the Google Chrome browser. All features functioned as expected. The following section describes each output screen with a representative layout diagram.</p>
+<!-- PAGE 17 – RESULTS part 1 -->
+<div class="page">
+<h2 class="sec">Results and Output</h2>
+<p>The application was successfully developed and tested in Google Chrome. All features functioned as expected. The following figures show representative views of the application.</p>
 
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:14px;">7.1 Main Application Screen (Empty State)</h3>
-  <!-- Simulated screenshot using styled div -->
-  <div style="border:2px solid #667eea;border-radius:12px;overflow:hidden;margin-bottom:18px;box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-    <div style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:18px;text-align:center;">
-      <div style="font-size:16pt;font-weight:bold;">📝 To Do List</div>
-      <div style="font-size:10pt;opacity:0.85;">Stay organised. Stay productive.</div>
+<h3 class="sub">7.1 Main Screen – Empty State</h3>
+<div class="fig">
+  <div class="fig-hdr">📝 To Do List &nbsp;&nbsp; <small style="opacity:.85;font-size:10pt;">Stay organised. Stay productive.</small></div>
+  <div class="fig-stats">
+    <div class="stat"><div class="stat-n">0</div><div class="stat-l">Total</div></div>
+    <div class="stat"><div class="stat-n">0</div><div class="stat-l">Pending</div></div>
+    <div class="stat"><div class="stat-n">0</div><div class="stat-l">Completed</div></div>
+  </div>
+  <div style="padding:14px;background:#fff;">
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
+      <div style="flex:1;border:2px solid #e0e4ff;border-radius:8px;padding:8px 12px;color:#aaa;font-size:10pt;">Enter a new task...</div>
+      <div style="border:2px solid #e0e4ff;border-radius:8px;padding:8px 10px;font-size:10pt;color:#555;">🟡 Medium ▾</div>
+      <div style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:8px;padding:8px 14px;font-size:13pt;">＋</div>
     </div>
-    <div style="display:flex;justify-content:space-around;background:#f8f9ff;padding:12px;border-bottom:1px solid #e8ecff;">
-      <div style="text-align:center;"><div style="font-size:18pt;font-weight:bold;color:#667eea;">0</div><div style="font-size:8pt;color:#888;text-transform:uppercase;">Total</div></div>
-      <div style="text-align:center;"><div style="font-size:18pt;font-weight:bold;color:#667eea;">0</div><div style="font-size:8pt;color:#888;text-transform:uppercase;">Pending</div></div>
-      <div style="text-align:center;"><div style="font-size:18pt;font-weight:bold;color:#667eea;">0</div><div style="font-size:8pt;color:#888;text-transform:uppercase;">Completed</div></div>
+    <div style="border:2px solid #e0e4ff;border-radius:8px;padding:7px 12px;font-size:10pt;color:#aaa;">📅 Due Date (optional)</div>
+  </div>
+  <div style="padding:28px;text-align:center;color:#bbb;font-size:10pt;">📋 No tasks yet. Add one above!</div>
+</div>
+<p class="fig-cap">Figure 1 — Empty state when the application is first opened.</p>
+
+<h3 class="sub" style="margin-top:20px;">7.2 Application with Three Tasks</h3>
+<div class="fig">
+  <div class="fig-hdr">📝 To Do List</div>
+  <div class="fig-stats">
+    <div class="stat"><div class="stat-n">3</div><div class="stat-l">Total</div></div>
+    <div class="stat"><div class="stat-n">2</div><div class="stat-l">Pending</div></div>
+    <div class="stat"><div class="stat-n">1</div><div class="stat-l">Completed</div></div>
+  </div>
+  <div style="padding:12px 14px;">
+    <div class="task-row" style="opacity:.6;background:#f0f0f0;border-color:#ddd;">
+      <input type="checkbox" checked disabled style="accent-color:#4f46e5;">
+      <div style="flex:1;"><div style="text-decoration:line-through;color:#999;font-size:11pt;">Buy groceries</div><span class="badge lo">low</span></div>
+      <span style="font-size:11pt;">✏️ 🗑️</span>
     </div>
-    <div style="padding:14px;background:#fff;border-bottom:1px solid #e8ecff;">
-      <div style="display:flex;gap:8px;margin-bottom:8px;">
-        <div style="flex:1;border:2px solid #e0e4ff;border-radius:8px;padding:8px 12px;font-size:10pt;color:#aaa;">Enter a new task...</div>
-        <div style="border:2px solid #e0e4ff;border-radius:8px;padding:8px 10px;font-size:10pt;color:#444;">🟡 Medium ▾</div>
-        <div style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;border-radius:8px;padding:8px 14px;font-size:13pt;">＋</div>
-      </div>
-      <div style="border:2px solid #e0e4ff;border-radius:8px;padding:7px 12px;font-size:10pt;color:#aaa;">📅 Due Date (optional)</div>
+    <div class="task-row">
+      <input type="checkbox" disabled style="accent-color:#4f46e5;">
+      <div style="flex:1;"><div style="font-size:11pt;font-weight:500;">Submit assignment</div><span class="badge hi">high</span>&nbsp;<span style="font-size:8.5pt;color:#c62828;font-weight:600;">📅 24 May 2026 (Overdue)</span></div>
+      <span style="font-size:11pt;">✏️ 🗑️</span>
     </div>
-    <div style="padding:30px;text-align:center;color:#bbb;">
-      <div style="font-size:24pt;">📋</div>
-      <div style="font-size:10pt;">No tasks yet. Add one above!</div>
+    <div class="task-row">
+      <input type="checkbox" disabled style="accent-color:#4f46e5;">
+      <div style="flex:1;"><div style="font-size:11pt;font-weight:500;">Read chapter 5</div><span class="badge med">medium</span></div>
+      <span style="font-size:11pt;">✏️ 🗑️</span>
     </div>
   </div>
-  <p style="font-size:11pt;font-style:italic;text-align:center;color:#555;margin-bottom:20px;">Figure 1: Empty state of the To-Do List application when first opened</p>
-
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:14px;">7.2 Application with Tasks Added</h3>
-  <div style="border:2px solid #667eea;border-radius:12px;overflow:hidden;margin-bottom:12px;box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-    <div style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:14px;text-align:center;font-size:13pt;font-weight:bold;">📝 To Do List</div>
-    <div style="display:flex;justify-content:space-around;background:#f8f9ff;padding:10px;border-bottom:1px solid #e8ecff;">
-      <div style="text-align:center;"><div style="font-size:16pt;font-weight:bold;color:#667eea;">3</div><div style="font-size:8pt;color:#888;">TOTAL</div></div>
-      <div style="text-align:center;"><div style="font-size:16pt;font-weight:bold;color:#667eea;">2</div><div style="font-size:8pt;color:#888;">PENDING</div></div>
-      <div style="text-align:center;"><div style="font-size:16pt;font-weight:bold;color:#667eea;">1</div><div style="font-size:8pt;color:#888;">COMPLETED</div></div>
-    </div>
-    <div style="padding:12px 14px;">
-      <!-- Task 1 -->
-      <div style="display:flex;align-items:center;gap:10px;background:#f0f0f0;border:1px solid #ddd;border-radius:10px;padding:10px 12px;margin-bottom:8px;opacity:0.6;">
-        <input type="checkbox" checked style="accent-color:#667eea;" disabled/>
-        <div style="flex:1;"><div style="text-decoration:line-through;color:#999;font-size:11pt;">Buy groceries</div><span style="background:#e8f5e9;color:#2e7d32;font-size:8pt;padding:2px 7px;border-radius:8px;font-weight:bold;">LOW</span></div>
-        <span style="font-size:11pt;">✏️ 🗑️</span>
-      </div>
-      <!-- Task 2 -->
-      <div style="display:flex;align-items:center;gap:10px;background:#f8f9ff;border:1px solid #e8ecff;border-radius:10px;padding:10px 12px;margin-bottom:8px;">
-        <input type="checkbox" style="accent-color:#667eea;" disabled/>
-        <div style="flex:1;"><div style="font-size:11pt;font-weight:500;">Submit assignment</div><div style="display:flex;gap:8px;margin-top:3px;"><span style="background:#ffe0e0;color:#e53935;font-size:8pt;padding:2px 7px;border-radius:8px;font-weight:bold;">HIGH</span><span style="font-size:8pt;color:#e53935;font-weight:bold;">📅 25 May 2026 (Overdue)</span></div></div>
-        <span style="font-size:11pt;">✏️ 🗑️</span>
-      </div>
-      <!-- Task 3 -->
-      <div style="display:flex;align-items:center;gap:10px;background:#f8f9ff;border:1px solid #e8ecff;border-radius:10px;padding:10px 12px;">
-        <input type="checkbox" style="accent-color:#667eea;" disabled/>
-        <div style="flex:1;"><div style="font-size:11pt;font-weight:500;">Read chapter 5 of textbook</div><span style="background:#fff3cd;color:#f57c00;font-size:8pt;padding:2px 7px;border-radius:8px;font-weight:bold;">MEDIUM</span></div>
-        <span style="font-size:11pt;">✏️ 🗑️</span>
-      </div>
-    </div>
-  </div>
-  <p style="font-size:11pt;font-style:italic;text-align:center;color:#555;">Figure 2: Application showing tasks with different priorities, a completed task (strikethrough), and an overdue task (highlighted in red)</p>
+</div>
+<p class="fig-cap">Figure 2 — Three tasks: one completed (strikethrough), one overdue (red date), one pending.</p>
 </div>
 
 
-<!-- RESULTS PAGE 2 -->
-<div class="page" style="page-break-before:always;">
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:14px;">7.3 Filter Functionality</h3>
-  <div style="border:2px solid #667eea;border-radius:12px;overflow:hidden;margin-bottom:12px;box-shadow:0 4px 12px rgba(0,0,0,0.12);">
-    <div style="display:flex;gap:8px;padding:12px 14px;background:#f8f9ff;flex-wrap:wrap;">
-      <span style="padding:5px 14px;background:#667eea;color:white;border-radius:20px;font-size:10pt;border:2px solid #667eea;">All</span>
-      <span style="padding:5px 14px;background:white;color:#555;border-radius:20px;font-size:10pt;border:2px solid #e0e4ff;">Pending</span>
-      <span style="padding:5px 14px;background:white;color:#555;border-radius:20px;font-size:10pt;border:2px solid #e0e4ff;">Completed</span>
-      <span style="padding:5px 14px;background:white;color:#555;border-radius:20px;font-size:10pt;border:2px solid #e0e4ff;">🔴 High</span>
-      <span style="padding:5px 14px;background:white;color:#555;border-radius:20px;font-size:10pt;border:2px solid #e0e4ff;">🟡 Medium</span>
-      <span style="padding:5px 14px;background:white;color:#555;border-radius:20px;font-size:10pt;border:2px solid #e0e4ff;">🟢 Low</span>
-    </div>
+<!-- PAGE 18 – RESULTS part 2 -->
+<div class="page">
+<h3 class="sub">7.3 Filter Bar</h3>
+<div class="fig">
+  <div class="filter-row">
+    <span class="chip on">All</span>
+    <span class="chip">Pending</span>
+    <span class="chip">Completed</span>
+    <span class="chip">🔴 High</span>
+    <span class="chip">🟡 Medium</span>
+    <span class="chip">🟢 Low</span>
   </div>
-  <p style="font-size:11pt;font-style:italic;text-align:center;color:#555;margin-bottom:20px;">Figure 3: Filter bar with "All" tab active — users can switch between All, Pending, Completed, and priority-based views</p>
+</div>
+<p class="fig-cap">Figure 3 — Filter bar; "All" is active. Clicking any chip instantly filters the task list.</p>
 
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:14px;margin-top:20px;">7.4 Feature Summary Table</h3>
-  <table style="width:100%;border-collapse:collapse;font-size:12pt;">
-    <thead>
-      <tr style="background:#667eea;color:white;">
-        <th style="border:1px solid #aaa;padding:10px 12px;text-align:left;">Feature</th>
-        <th style="border:1px solid #aaa;padding:10px 12px;text-align:center;">Status</th>
-        <th style="border:1px solid #aaa;padding:10px 12px;text-align:left;">Notes</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;">Add new task</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;color:green;font-weight:bold;">✓</td><td style="border:1px solid #aaa;padding:9px 12px;">Via input field + button or Enter key</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;">Edit existing task</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;color:green;font-weight:bold;">✓</td><td style="border:1px solid #aaa;padding:9px 12px;">Via edit (✏️) button with prompt dialog</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;">Delete task</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;color:green;font-weight:bold;">✓</td><td style="border:1px solid #aaa;padding:9px 12px;">Permanent deletion via delete (🗑️) button</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;">Mark task as complete</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;color:green;font-weight:bold;">✓</td><td style="border:1px solid #aaa;padding:9px 12px;">Checkbox toggle with strikethrough styling</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;">Priority levels</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;color:green;font-weight:bold;">✓</td><td style="border:1px solid #aaa;padding:9px 12px;">High / Medium / Low with colour-coded badges</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;">Due date assignment</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;color:green;font-weight:bold;">✓</td><td style="border:1px solid #aaa;padding:9px 12px;">Optional; overdue dates shown in red</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;">Task filtering</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;color:green;font-weight:bold;">✓</td><td style="border:1px solid #aaa;padding:9px 12px;">By status (All/Pending/Completed) and priority</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;">Real-time statistics</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;color:green;font-weight:bold;">✓</td><td style="border:1px solid #aaa;padding:9px 12px;">Total, Pending, Completed counts update live</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;">Data persistence</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;color:green;font-weight:bold;">✓</td><td style="border:1px solid #aaa;padding:9px 12px;">localStorage — tasks survive browser refresh</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;">Input validation</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;color:green;font-weight:bold;">✓</td><td style="border:1px solid #aaa;padding:9px 12px;">Empty tasks are rejected with red border feedback</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;">Clear completed tasks</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;color:green;font-weight:bold;">✓</td><td style="border:1px solid #aaa;padding:9px 12px;">Bulk remove all completed tasks at once</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;">Responsive design</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;color:green;font-weight:bold;">✓</td><td style="border:1px solid #aaa;padding:9px 12px;">Works on desktop, tablet, and mobile</td></tr>
-      <tr><td style="border:1px solid #aaa;padding:9px 12px;">Smooth animations</td><td style="border:1px solid #aaa;padding:9px 12px;text-align:center;color:green;font-weight:bold;">✓</td><td style="border:1px solid #aaa;padding:9px 12px;">Slide-in animation for newly added tasks</td></tr>
-    </tbody>
-  </table>
+<h3 class="sub" style="margin-top:20px;">7.4 Feature Summary</h3>
+<table>
+<thead><tr><th>Feature</th><th style="width:70px;text-align:center;">Status</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Add new task</td><td style="text-align:center;color:green;font-weight:bold;">✓</td><td>Text + priority + optional due date; Enter key also works</td></tr>
+<tr><td>Edit existing task</td><td style="text-align:center;color:green;font-weight:bold;">✓</td><td>Click ✏️; browser prompt accepts new text</td></tr>
+<tr><td>Delete task</td><td style="text-align:center;color:green;font-weight:bold;">✓</td><td>Click 🗑️; immediately removed from list &amp; storage</td></tr>
+<tr><td>Mark as complete</td><td style="text-align:center;color:green;font-weight:bold;">✓</td><td>Checkbox toggle; strikethrough + grey styling</td></tr>
+<tr><td>Priority levels</td><td style="text-align:center;color:green;font-weight:bold;">✓</td><td>High / Medium / Low with colour-coded badges</td></tr>
+<tr><td>Due date &amp; overdue</td><td style="text-align:center;color:green;font-weight:bold;">✓</td><td>Optional; past dates shown in red with "(Overdue)" label</td></tr>
+<tr><td>Filter tasks</td><td style="text-align:center;color:green;font-weight:bold;">✓</td><td>All / Pending / Completed / High / Medium / Low</td></tr>
+<tr><td>Real-time statistics</td><td style="text-align:center;color:green;font-weight:bold;">✓</td><td>Total, Pending, Completed counts update instantly</td></tr>
+<tr><td>Data persistence</td><td style="text-align:center;color:green;font-weight:bold;">✓</td><td>localStorage — tasks survive page refresh &amp; browser close</td></tr>
+<tr><td>Input validation</td><td style="text-align:center;color:green;font-weight:bold;">✓</td><td>Empty tasks rejected; input border flashes red</td></tr>
+<tr><td>Clear completed</td><td style="text-align:center;color:green;font-weight:bold;">✓</td><td>Bulk remove all completed tasks in one click</td></tr>
+<tr><td>Responsive design</td><td style="text-align:center;color:green;font-weight:bold;">✓</td><td>Works on desktop, tablet, and mobile</td></tr>
+<tr><td>Slide-in animation</td><td style="text-align:center;color:green;font-weight:bold;">✓</td><td>CSS @keyframes; new tasks animate into view</td></tr>
+</tbody>
+</table>
 </div>
 
 
-<!-- PAGE 19: CONCLUSION -->
-<div class="page" style="page-break-before:always;">
-  <h2 style="font-size:16pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:2px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:28px;">Conclusion</h2>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;">8.1 Summary</h3>
-  <p style="text-align:justify;margin-bottom:16px;">This project successfully demonstrates the design and development of a fully functional To-Do List web application using only HTML5, CSS3, and JavaScript — three of the most fundamental technologies in modern web development. The application fulfils all the stated objectives, providing users with a clean, intuitive, and feature-rich tool for managing their daily tasks.</p>
-  <p style="text-align:justify;margin-bottom:16px;">The application allows users to add tasks with customisable priority levels and optional due dates, edit or delete tasks as needed, and mark tasks as complete. Tasks are organised and can be filtered by status or priority, giving users full control over how they view their workload. A real-time statistics panel provides an instant overview of the user's task progress, and the use of localStorage ensures that all data is preserved between sessions without requiring any server-side infrastructure.</p>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:20px;">8.2 Learning Outcomes</h3>
-  <p style="text-align:justify;margin-bottom:12px;">Through the development of this project, the following key skills and concepts were practised and reinforced:</p>
-  <ul style="margin-left:25px;line-height:2.2;margin-bottom:16px;">
-    <li>Structuring web pages using semantic HTML5 elements and forms</li>
-    <li>Applying CSS3 for visual design, including gradients, flexbox, animations, and responsive layouts</li>
-    <li>Writing modular, readable JavaScript with clear function separation</li>
-    <li>Manipulating the DOM dynamically to create interactive user interfaces</li>
-    <li>Using the Web Storage API (localStorage) for client-side data persistence</li>
-    <li>Implementing input validation and user feedback mechanisms</li>
-    <li>Designing for usability and user experience (UX)</li>
-  </ul>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:20px;">8.3 Challenges Faced</h3>
-  <p style="text-align:justify;margin-bottom:16px;">One of the challenges encountered during development was ensuring that the task list re-rendered correctly after every operation — including filtering, adding, editing, and deleting — without causing visual glitches or data inconsistency. This was resolved by implementing a centralised <code style="background:#f4f4f4;padding:2px 5px;border-radius:3px;">renderTasks()</code> function that rebuilds the entire task list from the current state of the tasks array each time it is called. Another challenge was correctly detecting overdue tasks, which required careful handling of date comparisons in JavaScript to account for timezone and time-of-day differences.</p>
-  <h3 style="font-size:14pt;font-weight:bold;margin-bottom:12px;margin-top:20px;">8.4 Future Scope</h3>
-  <p style="text-align:justify;margin-bottom:12px;">The current version of the application is a strong foundation that can be extended in numerous ways:</p>
-  <ul style="margin-left:25px;line-height:2.2;">
-    <li><strong>Categories / Tags:</strong> Allow tasks to be grouped into custom categories such as Work, Study, Personal, etc.</li>
-    <li><strong>Drag-and-Drop Reordering:</strong> Let users rearrange the order of tasks manually using drag-and-drop.</li>
-    <li><strong>Browser Notifications:</strong> Use the Web Notifications API to send reminders for upcoming due dates.</li>
-    <li><strong>Cloud Sync:</strong> Integrate with a backend (Node.js + MongoDB or Firebase) to synchronise tasks across devices.</li>
-    <li><strong>Dark Mode:</strong> Add a dark theme toggle for better usability in low-light environments.</li>
-    <li><strong>Export Feature:</strong> Allow users to export their task list as a PDF or CSV file.</li>
-    <li><strong>Search Functionality:</strong> Add a live search bar to quickly find specific tasks by keyword.</li>
-  </ul>
+<!-- PAGE 19 – CONCLUSION -->
+<div class="page">
+<h2 class="sec">Conclusion</h2>
+<h3 class="sub">8.1 Summary</h3>
+<p>This project successfully demonstrates the design and development of a fully functional To-Do List web application using only HTML5, CSS3, and JavaScript — three of the most fundamental technologies in modern web development. The application fulfils all stated objectives, providing users with a clean, intuitive, and feature-rich tool for managing daily tasks.</p>
+<p>Users can add tasks with customisable priority levels and optional due dates, edit or delete tasks as needed, and mark tasks as complete. A real-time statistics panel gives an instant overview of workload, and localStorage ensures all data is preserved between sessions without any server-side infrastructure.</p>
+<h3 class="sub">8.2 Learning Outcomes</h3>
+<p>Through this project, the following skills and concepts were practised and reinforced:</p>
+<ul>
+<li>Structuring web pages using semantic HTML5 elements and form controls</li>
+<li>Applying CSS3 for visual design including gradients, flexbox, animations, and responsive layouts</li>
+<li>Writing modular, readable JavaScript with clear function separation</li>
+<li>Dynamically manipulating the DOM to create interactive user interfaces</li>
+<li>Using the Web Storage API (localStorage) for client-side data persistence</li>
+<li>Implementing input validation and user feedback mechanisms</li>
+<li>Designing for usability and user experience (UX)</li>
+</ul>
+<h3 class="sub">8.3 Challenges Faced</h3>
+<p>A key challenge was ensuring the task list re-rendered correctly after every operation — adding, editing, deleting, filtering — without data inconsistency or visual glitches. This was resolved by implementing a single centralised <code>renderTasks()</code> function that rebuilds the entire list from the current state of the array each time it is called. Correctly detecting overdue tasks also required careful JavaScript date comparison to account for timezone differences.</p>
+<h3 class="sub">8.4 Future Scope</h3>
+<ul>
+<li><strong>Categories / Tags:</strong> Group tasks into custom categories (Work, Study, Personal).</li>
+<li><strong>Drag-and-Drop Reordering:</strong> Let users manually rearrange tasks.</li>
+<li><strong>Browser Notifications:</strong> Send reminders for upcoming due dates via the Web Notifications API.</li>
+<li><strong>Cloud Sync:</strong> Integrate a backend (Firebase / Node.js + MongoDB) to sync across devices.</li>
+<li><strong>Dark Mode:</strong> Add a dark theme toggle for low-light environments.</li>
+<li><strong>Export to PDF / CSV:</strong> Allow users to download their task list.</li>
+<li><strong>Search Bar:</strong> Quickly find specific tasks by keyword.</li>
+</ul>
 </div>
 
 
-<!-- PAGE 20: REFERENCES -->
-<div class="page" style="page-break-before:always;">
-  <h2 style="font-size:16pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:2px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:28px;">References</h2>
-  <p style="text-align:justify;margin-bottom:20px;">The following references were consulted during the research, design, and development phases of this project:</p>
-  <ol style="margin-left:25px;line-height:2.6;font-size:12pt;">
-    <li style="margin-bottom:8px;">Mozilla Developer Network (MDN Web Docs). <em>HTML: HyperText Markup Language</em>. Available at: https://developer.mozilla.org/en-US/docs/Web/HTML [Accessed: May 2026]</li>
-    <li style="margin-bottom:8px;">Mozilla Developer Network (MDN Web Docs). <em>CSS: Cascading Style Sheets</em>. Available at: https://developer.mozilla.org/en-US/docs/Web/CSS [Accessed: May 2026]</li>
-    <li style="margin-bottom:8px;">Mozilla Developer Network (MDN Web Docs). <em>JavaScript Reference</em>. Available at: https://developer.mozilla.org/en-US/docs/Web/JavaScript [Accessed: May 2026]</li>
-    <li style="margin-bottom:8px;">Mozilla Developer Network (MDN Web Docs). <em>Window.localStorage</em>. Available at: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage [Accessed: May 2026]</li>
-    <li style="margin-bottom:8px;">W3Schools. <em>HTML Tutorial</em>. Available at: https://www.w3schools.com/html/ [Accessed: May 2026]</li>
-    <li style="margin-bottom:8px;">W3Schools. <em>CSS Tutorial</em>. Available at: https://www.w3schools.com/css/ [Accessed: May 2026]</li>
-    <li style="margin-bottom:8px;">W3Schools. <em>JavaScript Tutorial</em>. Available at: https://www.w3schools.com/js/ [Accessed: May 2026]</li>
-    <li style="margin-bottom:8px;">W3Schools. <em>Web Storage API</em>. Available at: https://www.w3schools.com/html/html5_webstorage.asp [Accessed: May 2026]</li>
-    <li style="margin-bottom:8px;">Duckett, J. (2011). <em>HTML and CSS: Design and Build Websites</em>. John Wiley &amp; Sons. ISBN: 978-1118008188.</li>
-    <li style="margin-bottom:8px;">Duckett, J. (2014). <em>JavaScript and jQuery: Interactive Front-End Web Development</em>. John Wiley &amp; Sons. ISBN: 978-1118531648.</li>
-    <li style="margin-bottom:8px;">Flanagan, D. (2020). <em>JavaScript: The Definitive Guide</em>, 7th Edition. O'Reilly Media. ISBN: 978-1491952023.</li>
-    <li style="margin-bottom:8px;">CSS-Tricks. <em>A Complete Guide to Flexbox</em>. Available at: https://css-tricks.com/snippets/css/a-guide-to-flexbox/ [Accessed: May 2026]</li>
-    <li style="margin-bottom:8px;">FreeCodeCamp. <em>JavaScript localStorage Tutorial</em>. Available at: https://www.freecodecamp.org [Accessed: May 2026]</li>
-    <li style="margin-bottom:8px;">GitHub. <em>html-to-do-list Repository</em>. Available at: https://github.com/PRASHANTH182003/html-to-do-list [Accessed: May 2026]</li>
-  </ol>
-
-  <div style="margin-top:50px;border-top:1px solid #ccc;padding-top:20px;text-align:center;font-size:11pt;color:#555;">
-    <p style="margin-bottom:6px;">— End of Report —</p>
-    <p>HTML To-Do List | Web Development Project | Academic Year 2025–2026</p>
-  </div>
+<!-- PAGE 20 – REFERENCES -->
+<div class="page">
+<h2 class="sec">References</h2>
+<p>The following references were consulted during research, design, and development:</p>
+<ol style="line-height:2.4;">
+<li>Mozilla Developer Network (MDN Web Docs). <em>HTML: HyperText Markup Language.</em> https://developer.mozilla.org/en-US/docs/Web/HTML [Accessed May 2026]</li>
+<li>Mozilla Developer Network (MDN Web Docs). <em>CSS: Cascading Style Sheets.</em> https://developer.mozilla.org/en-US/docs/Web/CSS [Accessed May 2026]</li>
+<li>Mozilla Developer Network (MDN Web Docs). <em>JavaScript Reference.</em> https://developer.mozilla.org/en-US/docs/Web/JavaScript [Accessed May 2026]</li>
+<li>Mozilla Developer Network (MDN Web Docs). <em>Window.localStorage.</em> https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage [Accessed May 2026]</li>
+<li>W3Schools. <em>HTML5 Tutorial.</em> https://www.w3schools.com/html/ [Accessed May 2026]</li>
+<li>W3Schools. <em>CSS3 Tutorial.</em> https://www.w3schools.com/css/ [Accessed May 2026]</li>
+<li>W3Schools. <em>JavaScript Tutorial.</em> https://www.w3schools.com/js/ [Accessed May 2026]</li>
+<li>W3Schools. <em>HTML Web Storage API.</em> https://www.w3schools.com/html/html5_webstorage.asp [Accessed May 2026]</li>
+<li>CSS-Tricks. <em>A Complete Guide to Flexbox.</em> https://css-tricks.com/snippets/css/a-guide-to-flexbox/ [Accessed May 2026]</li>
+<li>Duckett, J. (2011). <em>HTML and CSS: Design and Build Websites.</em> John Wiley &amp; Sons. ISBN: 978-1118008188.</li>
+<li>Duckett, J. (2014). <em>JavaScript and jQuery: Interactive Front-End Web Development.</em> John Wiley &amp; Sons. ISBN: 978-1118531648.</li>
+<li>Flanagan, D. (2020). <em>JavaScript: The Definitive Guide,</em> 7th ed. O'Reilly Media. ISBN: 978-1491952023.</li>
+<li>FreeCodeCamp. <em>How to Use localStorage in JavaScript.</em> https://www.freecodecamp.org [Accessed May 2026]</li>
+<li>GitHub Repository. <em>html-to-do-list.</em> https://github.com/PRASHANTH182003/html-to-do-list [Accessed May 2026]</li>
+</ol>
+<div style="margin-top:50px;border-top:1px solid #ccc;padding-top:18px;text-align:center;color:#555;font-size:11pt;">
+  <p>— End of Report —</p>
+  <p style="margin-top:6px;">HTML To-Do List &nbsp;|&nbsp; Web Development Project &nbsp;|&nbsp; Academic Year 2025–2026</p>
+</div>
 </div>
 
 </body>
